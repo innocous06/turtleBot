@@ -1,0 +1,64 @@
+catcher_node:
+  ros__parameters:
+    # topics
+    scan_topic: "/scan"
+    odom_topic: "/odom"
+    cmd_vel_topic: "/cmd_vel"
+
+    # motion
+    control_rate_hz: 20.0
+    v_max: 0.30
+    omega_max: 1.80
+    robot_radius: 0.18
+
+    # arena bounds
+    arena_min_x: -5.0
+    arena_min_y: -5.0
+    arena_max_x: 5.0
+    arena_max_y: 5.0
+
+    # ekf
+    ekf_dt: 0.05
+    ekf_sigma_a: 0.5
+    ekf_sigma_alpha: 1.2
+    ekf_sigma_r: 0.03
+    ekf_sigma_phi: 0.02
+    ekf_lost_timeout: 3.0
+
+    # detector
+    bg_learning_duration: 2.0
+    foreground_threshold: 0.15
+    min_cluster_size: 1
+    max_cluster_size: 30
+    cluster_distance_threshold: 0.30
+    min_target_width: 0.04
+    max_target_width: 0.60
+    target_type: "any"
+
+    # pursuit
+    pn_gain_N: 3.0
+    pn_bearing_gain: 1.8
+    pn_speed_coupling: 0.5
+
+    # herding
+    herd_offset: 0.75
+    herd_corner_offset: 1.50
+    corner_wall_threshold: 2.0
+
+    # shadow
+    shadow_enter_distance: 0.70
+    shadow_exit_distance: 0.80
+    capture_radius: 0.50
+    capture_hold_target: 1.0
+    shadow_trail_distance: 0.35
+    shadow_Kx: 2.5
+    shadow_Ky: 4.0
+    shadow_Ktheta: 3.0
+
+    # dwa
+    dwa_prediction_time: 1.5
+    dwa_safety_margin: 0.10
+
+    # search
+    search_spin_rate: 1.0
+    search_timeout: 12.6
