@@ -1,6 +1,4 @@
-"""
-ROS2 Nodes package initialization.
-"""
-from .catcher_node import CatcherNode, main
+from .catcher_node import CatcherNode
+from .runner_node import RunnerNode
 
-__all__ = ["CatcherNode", "main"]
+__all__ = ["CatcherNode", "RunnerNode"]

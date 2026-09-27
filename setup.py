@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'catcher_node = turtlebot_pe.nodes.catcher_node:main',
+            'runner_node = turtlebot_pe.nodes.runner_node:main',
         ],
     },
 )

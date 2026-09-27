@@ -1,0 +1,64 @@
+runner_node:
+  ros__parameters:
+    # topics
+    scan_topic: "/scan"
+    odom_topic: "/odom"
+    cmd_vel_topic: "/cmd_vel"
+
+    # motion
+    control_rate_hz: 20.0
+    v_max: 0.30
+    omega_max: 1.80
+    robot_radius: 0.18
+
+    # arena bounds
+    arena_min_x: -5.0
+    arena_min_y: -5.0
+    arena_max_x: 5.0
+    arena_max_y: 5.0
+
+    # ekf
+    ekf_dt: 0.05
+    ekf_sigma_a: 0.5
+    ekf_sigma_alpha: 1.2
+    ekf_sigma_r: 0.03
+    ekf_sigma_phi: 0.02
+
+    # detector
+    bg_learning_duration: 2.0
+    foreground_threshold: 0.15
+    min_cluster_size: 3
+    max_cluster_size: 30
+    cluster_distance_threshold: 0.30
+    min_target_width: 0.15
+    max_target_width: 0.60
+    target_type: "robot"
+
+    # apf
+    apf_eta_pursuer: 3.5
+    apf_d_pursuer_max: 4.0
+    apf_beta_closing: 1.5
+    apf_eta_obstacle: 2.0
+    apf_d_obstacle_max: 0.80
+    apf_k_vortex: 1.2
+    apf_eta_wall: 2.5
+    apf_d_wall_max: 1.0
+    apf_k_center: 0.08
+    heading_gain: 2.5
+
+    # anti-prediction
+    ou_tau: 0.8
+    ou_sigma: 0.5
+    ou_activation_distance: 2.0
+
+    # shielding
+    shield_activation_distance: 2.0
+    shield_time_advantage: 0.5
+    shield_orbit_margin: 0.35
+    shield_exit_distance: 3.0
+
+    # endgame
+    match_duration: 180.0
+    endgame_start: 150.0
+    endgame_distance_gain: 0.5
+    endgame_ou_sigma: 0.2
