@@ -84,6 +84,11 @@ class LidarTargetDetector:
         if self.bg_ranges is None or len(self.bg_ranges) != num_beams:
             return None
 
+        # Background healing: update if beams reveal further background
+        revealed_mask = arr_ranges > (self.bg_ranges + 0.30)
+        if np.any(revealed_mask):
+            self.bg_ranges[revealed_mask] = arr_ranges[revealed_mask]
+
         is_foreground = (
             (arr_ranges < (self.bg_ranges - self.foreground_threshold))
             & (arr_ranges >= range_min)
@@ -128,9 +133,13 @@ class LidarTargetDetector:
         valid_clusters = []
         self.latest_clusters = []
 
+        eff_min_size = self.min_cluster_size
+        if self.ekf_pred_range is not None and self.ekf_pred_range > 3.5:
+            eff_min_size = max(1, self.min_cluster_size - 1)
+
         for c in clusters:
             count = len(c)
-            if not (self.min_cluster_size <= count <= self.max_cluster_size):
+            if not (eff_min_size <= count <= self.max_cluster_size):
                 continue
 
             pts = c[:, :2]

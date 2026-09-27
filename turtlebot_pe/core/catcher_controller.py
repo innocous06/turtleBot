@@ -242,10 +242,11 @@ class CatcherController:
         if not self._check_trajectory_collision(xp, yp, th_p, v_cmd, w_cmd, obstacles):
             return v_cmd, w_cmd, self.state
 
-        best_cmd = (0.05, clamp(w_cmd * 1.5, -self.omega_max, self.omega_max))
+        fallback_w = self.omega_max if w_cmd >= 0.0 else -self.omega_max
+        best_cmd = (0.0, fallback_w)
         best_score = -1e9
 
-        candidate_v = [self.v_max * 0.8, self.v_max * 0.5, 0.10, 0.05]
+        candidate_v = [self.v_max * 0.8, self.v_max * 0.5, 0.10, 0.0]
         candidate_w = [w_cmd, w_cmd + 0.6, w_cmd - 0.6, self.omega_max, -self.omega_max]
 
         for cv in candidate_v:
