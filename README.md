@@ -141,7 +141,9 @@ turtleBot/
 │   ├── test_integration.py
 │   ├── test_lidar_detector.py
 │   ├── test_rigorous_edge_cases.py
-│   └── test_runner_controller.py
+│   ├── test_rigorous_simulation.py
+│   ├── test_runner_controller.py
+│   └── test_tactical_edge_cases.py
 ├── turtlebot_pe/
 │   ├── core/
 │   │   ├── catcher_controller.py

@@ -204,7 +204,8 @@ class CatcherController:
             e_theta = wrap_angle(th_e - th_p)
             sinc_th = math.sin(e_theta) / e_theta if abs(e_theta) > 1e-4 else 1.0
 
-            v_cmd = clamp(ve * math.cos(e_theta) - self.shadow_Kx * e_x, 0.05, self.v_max)
+            min_v = 0.0 if (ve < 0.05 and dist <= self.shadow_trail_distance) else 0.05
+            v_cmd = clamp(ve * math.cos(e_theta) - self.shadow_Kx * e_x, min_v, self.v_max)
             w_cmd = clamp(
                 om_e - self.shadow_Ky * ve * e_y * sinc_th + self.shadow_Ktheta * math.sin(e_theta),
                 -self.omega_max,

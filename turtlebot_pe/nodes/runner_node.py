@@ -66,7 +66,7 @@ class RunnerNode(Node):
         self.declare_parameter("apf_d_obstacle_max", 0.80)
         self.declare_parameter("apf_k_vortex", 1.2)
         self.declare_parameter("apf_eta_wall", 2.5)
-        self.declare_parameter("apf_d_wall_max", 1.0)
+        self.declare_parameter("apf_d_wall_max", 0.65)
         self.declare_parameter("apf_k_center", 0.08)
         self.declare_parameter("heading_gain", 2.5)
 

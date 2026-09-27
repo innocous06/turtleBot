@@ -19,7 +19,7 @@ class RunnerController:
         apf_d_obstacle_max: float = 0.80,
         apf_k_vortex: float = 1.2,
         apf_eta_wall: float = 2.5,
-        apf_d_wall_max: float = 1.0,
+        apf_d_wall_max: float = 0.65,
         apf_k_center: float = 0.08,
         heading_gain: float = 2.5,
         ou_tau: float = 0.8,
@@ -170,6 +170,9 @@ class RunnerController:
             r_orbit = float(self.active_shield_obs["radius"]) + self.shield_orbit_margin
             phi_desired = math.atan2(p_catcher[1] - c_obs[1], p_catcher[0] - c_obs[0]) + math.pi
             p_orbit = c_obs + r_orbit * np.array([math.cos(phi_desired), math.sin(phi_desired)])
+            min_x, min_y, max_x, max_y = self.arena_bounds
+            p_orbit[0] = np.clip(p_orbit[0], min_x + 0.35, max_x - 0.35)
+            p_orbit[1] = np.clip(p_orbit[1], min_y + 0.35, max_y - 0.35)
             target_vec = p_orbit - p_ego
             des_th = math.atan2(target_vec[1], target_vec[0])
             e_th = wrap_angle(des_th - th_p)
@@ -226,6 +229,9 @@ class RunnerController:
         if 0 < d_top < self.d_w0:
             f_wall[1] -= self.eta_w * (1.0 / d_top - 1.0 / self.d_w0) * (1.0 / (d_top * d_top))
 
+        if f_wall[0] != 0.0 and f_wall[1] != 0.0:
+            f_wall += np.array([-f_wall[1], f_wall[0]], dtype=float) * 0.5
+
         # Force 4: Center bias vs. Endgame max-distance waypoint
         current_ou_sigma = self.ou_sigma
         if elapsed_time >= self.endgame_start:
@@ -250,6 +256,7 @@ class RunnerController:
         theta_des = math.atan2(f_net[1], f_net[0]) + noise_heading
         e_th = wrap_angle(theta_des - th_p)
         w_cmd = clamp(self.k_theta * e_th, -self.omega_max, self.omega_max)
-        v_cmd = clamp(self.v_max * max(0.0, math.cos(e_th)), 0.0, self.v_max)
+        speed_mult = max(0.0, math.cos(e_th)) ** 0.5
+        v_cmd = clamp(self.v_max * speed_mult, 0.0, self.v_max)
 
         return v_cmd, w_cmd, self.state
